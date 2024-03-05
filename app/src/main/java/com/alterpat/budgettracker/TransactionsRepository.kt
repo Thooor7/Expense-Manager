@@ -32,10 +32,6 @@ class TransactionsRepository(
     fun insert(transactionModel: TransactionModel): Boolean {
         return budgetDataBaseLocal.insertAll(transactionModel) > 0
     }
-
-//    fun insertAll(transactionModel: TransactionModel){
-//        return budgetDataBaseLocal.insertAll(transactionModel)
-//    }
     fun delete(id: Int) {
         var get = getForId(id)
          budgetDataBaseLocal.delete(get)

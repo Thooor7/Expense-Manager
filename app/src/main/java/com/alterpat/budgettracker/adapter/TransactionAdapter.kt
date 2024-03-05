@@ -16,7 +16,6 @@ import com.alterpat.budgettracker.views.DetailedActivity
 class TransactionAdapter(private val activity: Activity, private var transactionModels: List<TransactionModel, >
 ): RecyclerView.Adapter<TransactionAdapter.TransactionHolder>() {
 
-//    private lateinit var listener: OnGuestListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction_layout, parent, false)
@@ -46,7 +45,6 @@ class TransactionAdapter(private val activity: Activity, private var transaction
             val intent = Intent(context.applicationContext, DetailedActivity::class.java)
             val bundle = Bundle()
             bundle.putInt("transaction", transaction.id)
-//            intent.putExtra("transaction", transaction)
             intent.putExtras(bundle)
             activity.startActivity(intent)
         }
@@ -56,9 +54,6 @@ class TransactionAdapter(private val activity: Activity, private var transaction
         this.transactionModels = list
         notifyDataSetChanged()
     }
-//    fun attachListener(guestListener: OnGuestListener){
-//        listener = guestListener
-//    }
 
     class TransactionHolder(view: View): RecyclerView.ViewHolder(view){
         val label: TextView = view.findViewById(R.id.label)
