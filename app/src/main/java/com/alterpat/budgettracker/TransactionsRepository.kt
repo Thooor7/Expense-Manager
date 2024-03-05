@@ -1,37 +1,49 @@
 package com.alterpat.budgettracker
 
 import android.content.Context
+import android.os.Bundle
 import com.alterpat.budgettracker.data.AppDataBase
-import com.alterpat.budgettracker.data.Transaction
+import com.alterpat.budgettracker.data.TransactionModel
 
-class TransactionsRepository(context: Context) {
+class TransactionsRepository(
+    private val context: Context) {
 
     private val budgetDataBaseLocal = AppDataBase.getDataBase(context).getAllTransactionDao()
+
     companion object {
 
         private lateinit var repository: TransactionsRepository
-        fun getInstance(context: Context): TransactionsRepository {
-            if (!!::repository.isInitialized) {
-                repository = TransactionsRepository(context)
+        fun getInstance(): TransactionsRepository {
+            if (!::repository.isInitialized) {
+                repository = TransactionsRepository(repository.context)
             }
             return repository
         }
     }
 
-    fun getAll(): List<Transaction>{
+
+    fun getForId(id: Int): TransactionModel {
+        return budgetDataBaseLocal.get(id)
+    }
+    fun getAll(): List<TransactionModel> {
         return budgetDataBaseLocal.getAll()
     }
 
-    fun insert(transaction: Transaction): Transaction{
-        return budgetDataBaseLocal.insertAll(transaction)
+    fun insert(transactionModel: TransactionModel): Boolean {
+        return budgetDataBaseLocal.insertAll(transactionModel) > 0
     }
 
-    fun delete(transaction: Transaction): Transaction{
-        return budgetDataBaseLocal.delete(transaction)
+//    fun insertAll(transactionModel: TransactionModel){
+//        return budgetDataBaseLocal.insertAll(transactionModel)
+//    }
+    fun delete(id: Int) {
+        var get = getForId(id)
+         budgetDataBaseLocal.delete(get)
     }
 
-    fun update(transaction: Transaction): Transaction{
-        return budgetDataBaseLocal.update(transaction)
+    fun update(transactionModel: TransactionModel): Boolean {
+        val rowsUpdated = budgetDataBaseLocal.update(transactionModel)
+        return rowsUpdated > 0
     }
 
 }
