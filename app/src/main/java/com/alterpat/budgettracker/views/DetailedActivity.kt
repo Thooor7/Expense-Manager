@@ -21,7 +21,6 @@ class DetailedActivity : AppCompatActivity() {
     private val binding get() = _binding
     private lateinit var transaction: TransactionModel
     private var transferId = 0
-//    private lateinit var repo: TransactionsRepository
     private lateinit var viewModel: NewTransactionsViewlModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +91,7 @@ class DetailedActivity : AppCompatActivity() {
             binding.descriptionInput.setText(it.description)
         })
 
-        viewModel.saveGuest.observe(this, Observer {
+        viewModel.saveTransaction.observe(this, Observer {
             if(it != "") {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
                 finish()

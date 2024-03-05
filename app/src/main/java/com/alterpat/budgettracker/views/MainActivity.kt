@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private var deletedPosition: Int = -1
     private lateinit var removedItem: TransactionModel
+    private var isUndoClicked: Boolean = false
 
     private val binding get() = _binding
 
@@ -112,21 +113,25 @@ class MainActivity : AppCompatActivity() {
         val view = binding.coordinator
         val snackbar = Snackbar.make(view, "Transação deletada!", Snackbar.LENGTH_LONG)
         snackbar.setAction("Voltar") {
+            isUndoClicked = true // Usuário clicou em "Voltar"
             // Desfaz a exclusão adicionando o item de volta à posição original
             if (deletedPosition != -1) {
                 transactions.add(deletedPosition, this.removedItem)
                 adapter.notifyDataSetChanged()
-
-                GlobalScope.launch {
-                    viewModel.save(removedItem)
-                }
-            } else {
-                    deleteTransaction(removedItem)
             }
             deletedPosition = -1 // Redefine a posição excluída
         }
-            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
+        snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.white))
         snackbar.setTextColor(ContextCompat.getColor(this, R.color.white))
+        snackbar.addCallback(object : Snackbar.Callback() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                if (!isUndoClicked) {
+                    // Se o usuário não clicou em "Voltar", exclua permanentemente
+                    deleteTransaction(removedItem)
+                }
+                isUndoClicked = false // Redefine a variável
+            }
+        })
         snackbar.show()
     }
 

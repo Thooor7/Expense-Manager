@@ -1,8 +1,5 @@
 package com.alterpat.budgettracker.viewmodel
 
-import android.app.Application
-import android.media.CamcorderProfile.getAll
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,28 +18,28 @@ class NewTransactionsViewlModel(private val repository: TransactionsRepository) 
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    private val _saveGuest = MutableLiveData<String>()
-    var saveGuest: LiveData<String> = _saveGuest
+    private val _saveTransaction = MutableLiveData<String>()
+    var saveTransaction: LiveData<String> = _saveTransaction
 
     fun get(id: Int) {
         _dataBaseId.value = repository.getForId(id)
     }
 
-    fun save(guest: TransactionModel) {
+    fun save(transaction: TransactionModel) {
 
         viewModelScope.launch {
             try {
-                if (guest.id == 0) {
-                    if (repository.insert(guest)) {
-                        _saveGuest.value = "Inserção com sucesso!"
+                if (transaction.id == 0) {
+                    if (repository.insert(transaction)) {
+                        _saveTransaction.value = "Inserção com sucesso!"
                     } else {
-                        _saveGuest.value = "Falha"
+                        _saveTransaction.value = "Falha"
                     }
                 } else {
-                    if (repository.update(guest)) {
-                        _saveGuest.value = "Atualização com sucesso!"
+                    if (repository.update(transaction)) {
+                        _saveTransaction.value = "Atualização com sucesso!"
                     } else {
-                        _saveGuest.value = "Falha"
+                        _saveTransaction.value = "Falha"
                     }
                 }
             } catch (e: Exception) {

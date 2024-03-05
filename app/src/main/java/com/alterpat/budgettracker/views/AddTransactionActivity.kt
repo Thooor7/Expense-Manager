@@ -8,17 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import com.alterpat.budgettracker.TransactionsRepository
-import com.alterpat.budgettracker.data.AppDataBase
 import com.alterpat.budgettracker.data.TransactionModel
 import com.alterpat.budgettracker.databinding.ActivityAddTransactionBinding
-import com.alterpat.budgettracker.viewmodel.MainViewModelFactory
 import com.alterpat.budgettracker.viewmodel.NewTransactionViewModelFactory
 import com.alterpat.budgettracker.viewmodel.NewTransactionsViewlModel
-import com.alterpat.budgettracker.viewmodel.TransactionsViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddTransactionBinding
@@ -94,7 +88,7 @@ class AddTransactionActivity : AppCompatActivity() {
             binding.descriptionInput.setText(it.description)
         })
 
-        viewModel.saveGuest.observe(this, Observer {
+        viewModel.saveTransaction.observe(this, Observer {
             if(it != "") {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
                 finish()
