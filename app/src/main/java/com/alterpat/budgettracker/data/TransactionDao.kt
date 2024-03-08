@@ -9,16 +9,19 @@ import androidx.room.Update
 @Dao
 interface TransactionDao {
 
-    @Query("SELECT * from transactions")
-    fun getAll(): List<Transaction>
+    @Query("SELECT * FROM transactions")
+    fun getAll(): List<TransactionModel>
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    fun get(id: Int): TransactionModel
 
     @Insert
-    fun insertAll(vararg  transaction: Transaction)
+    fun insertAll(transactionModel: TransactionModel): Long
 
     @Delete
-    fun delete(transaction: Transaction)
+    fun delete(transactionModel: TransactionModel)
 
     @Update
-    fun update(vararg transaction: Transaction)
+    fun update(vararg transactionModel: TransactionModel): Int
 
 }

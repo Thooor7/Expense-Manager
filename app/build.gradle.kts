@@ -62,4 +62,6 @@ dependencies {
     //ROOM
     implementation("androidx.room:room-runtime:2.4.2")
     kapt("androidx.room:room-compiler:2.4.2")
+
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 }

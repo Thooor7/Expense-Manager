@@ -1,37 +1,38 @@
 package com.alterpat.budgettracker.views
 
 import android.content.Context
-import android.inputmethodservice.InputMethodService
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.room.Room
-import com.alterpat.budgettracker.R
-import com.alterpat.budgettracker.data.AppDataBase
-import com.alterpat.budgettracker.data.Transaction
-import com.alterpat.budgettracker.databinding.ActivityAddTransactionBinding
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.alterpat.budgettracker.TransactionsRepository
+import com.alterpat.budgettracker.data.TransactionModel
 import com.alterpat.budgettracker.databinding.ActivityDetailedBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.alterpat.budgettracker.viewmodel.NewTransactionViewModelFactory
+import com.alterpat.budgettracker.viewmodel.NewTransactionsViewlModel
 
 class DetailedActivity : AppCompatActivity() {
 
     private lateinit var _binding: ActivityDetailedBinding
     private val binding get() = _binding
-    private lateinit var transaction: Transaction
+    private lateinit var transaction: TransactionModel
+    private var transferId = 0
+    private lateinit var viewModel: NewTransactionsViewlModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        transaction = intent.getSerializableExtra("transaction") as Transaction
+        val factory = NewTransactionViewModelFactory(TransactionsRepository(applicationContext))
 
-        binding.labelInput.setText(transaction.label)
-        binding.amountInput.setText(transaction.amount.toString())
-        binding.descriptionInput.setText(transaction.description)
+        viewModel = ViewModelProvider(this, factory).get(NewTransactionsViewlModel::class.java)
+        observer()
+        loadData()
 
         binding.rootView.setOnClickListener {
             this.window.decorView.clearFocus()
@@ -64,25 +65,51 @@ class DetailedActivity : AppCompatActivity() {
             else if (amount == null) {
                 binding.amountLayout.error = "please enter a valid amount"
             } else {
-                transaction = Transaction(transaction.id, label, amount, description)
+                if (!::transaction.isInitialized) {
+                transaction = TransactionModel()
+            }
+                transaction = TransactionModel().apply {
+                    this.id = transferId
+                    this.label = label
+                    this.amount = amount
+                    this.description = description
+                }
                 update(transaction)
             }
         }
         binding.closeBtn.setOnClickListener {
             finish()
         }
+
+
     }
 
-    private fun update(transaction: Transaction) {
-        val db = Room.databaseBuilder(
-            this,
-            AppDataBase::class.java,
-            "transactions"
-        ).build()
+    fun observer(){
+        viewModel.dataBaseId.observe(this, Observer {
+            binding.labelInput.setText(it.label)
+            binding.amountInput.setText(it.amount.toString())
+            binding.descriptionInput.setText(it.description)
+        })
 
-        GlobalScope.launch {
-            db.transactionDao().update(transaction)
-            finish()
+        viewModel.saveTransaction.observe(this, Observer {
+            if(it != "") {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+                finish()
+            }
+        })
+    }
+
+    private fun loadData(){
+        val bundle = intent.extras
+        if(bundle != null){
+            transferId = bundle.getInt("transaction")
+            viewModel.get(transferId)
         }
     }
+
+    private fun update(transaction: TransactionModel) {
+        viewModel.save(transaction)
+        finish()
+    }
+
 }

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Balance"
+                android:text="Saldo total"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
@@ -72,7 +72,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Budget"
+                        android:text="Entrada"
                         android:textSize="14dp"
                         android:textAllCaps="true"/>
 
@@ -96,7 +96,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expense"
+                        android:text="Saída"
                         android:textSize="14dp"
                         android:textAllCaps="true"/>
 
@@ -108,7 +108,7 @@
             android:id="@+id/recycler_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transactions"
+            android:text="Transações"
             android:textStyle="bold"
             android:textSize="14sp"
             android:textAllCaps="true"

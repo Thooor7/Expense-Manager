@@ -5,6 +5,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="red">#FF0000</color>
+    <color name="redLight">#AA1010</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="textMain">#292929</color>
     <color name="green">#43A047</color>
