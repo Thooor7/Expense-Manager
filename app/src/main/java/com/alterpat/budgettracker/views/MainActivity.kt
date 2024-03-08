@@ -53,12 +53,30 @@ class MainActivity : AppCompatActivity() {
         onClickNewTransaction()
 //        val swipeHelper = ItemTouchHelper(itemTouchHelper)
 //        swipeHelper.attachToRecyclerView(binding.recycleview)
-        swipeToRemove().attachToRecyclerView(binding.recycleview)
+
+        newSwipeToRemove().attachToRecyclerView(binding.recycleview)
 
     }
 
 
     //swipe to remove
+
+    fun newSwipeToRemove(): ItemTouchHelper {
+        val itemTouchHelper = object : SwiperGesture(this) {
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (transactions.isNotEmpty()) {
+                    deletedPosition = viewHolder.adapterPosition
+                    removedItem = transactions.removeAt(viewHolder.adapterPosition)
+                    adapter.setData(transactions)
+
+                    showSnackbar()
+                }
+            }
+        }
+        return ItemTouchHelper(itemTouchHelper)
+    }
+
 
     fun swipeToRemove(): ItemTouchHelper {
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
@@ -98,9 +116,9 @@ class MainActivity : AppCompatActivity() {
         val budgetAmount = data.filter { it.amount>0 }.map { it.amount }.sum()
         val expenseAmount = totalAmount - budgetAmount
 
-        binding.balance.text = "$ %.2f".format(totalAmount)
-        binding.budget.text = "$ %.2f".format(budgetAmount)
-        binding.expense.text = "$ %.2f".format(expenseAmount)
+        binding.balance.text = "R$ %.2f".format(totalAmount)
+        binding.budget.text = "R$ %.2f".format(budgetAmount)
+        binding.expense.text = "R$ %.2f".format(expenseAmount)
     }
 
     fun deleteTransaction(transactionModel: TransactionModel) {
