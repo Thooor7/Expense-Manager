@@ -14,6 +14,8 @@ import com.alterpat.budgettracker.data.TransactionModel
 import com.alterpat.budgettracker.databinding.ActivityDetailedBinding
 import com.alterpat.budgettracker.viewmodel.NewTransactionViewModelFactory
 import com.alterpat.budgettracker.viewmodel.NewTransactionsViewlModel
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class DetailedActivity : AppCompatActivity() {
 
@@ -73,6 +75,7 @@ class DetailedActivity : AppCompatActivity() {
                     this.label = label
                     this.amount = amount
                     this.description = description
+                    this.date = getCurrentDate()
                 }
                 update(transaction)
             }
@@ -110,6 +113,13 @@ class DetailedActivity : AppCompatActivity() {
     private fun update(transaction: TransactionModel) {
         viewModel.save(transaction)
         finish()
+    }
+
+    fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+        val currentDate = dateFormat.format(Date())
+
+        return currentDate.replace("-", "/")
     }
 
 }

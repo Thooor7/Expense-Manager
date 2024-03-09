@@ -41,6 +41,7 @@ class TransactionAdapter(private val activity: Activity, private var transaction
             holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red))
         }
         holder.label.text = transaction.label
+        holder.date.text = transaction.date
 
         holder.itemView.setOnClickListener{
             val intent = Intent(context.applicationContext, DetailedActivity::class.java)
@@ -59,6 +60,7 @@ class TransactionAdapter(private val activity: Activity, private var transaction
     class TransactionHolder(view: View): RecyclerView.ViewHolder(view){
         val label: TextView = view.findViewById(R.id.label)
         val amount: TextView = view.findViewById(R.id.amount)
+        val date: TextView = view.findViewById(R.id.date)
 
 
     }
