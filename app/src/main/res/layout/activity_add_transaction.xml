@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:hint="Label"
+            android:hint="Título"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:hint="Amount"
+            android:hint="Valor"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:hint="Description"
+            android:hint="Descrição"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText

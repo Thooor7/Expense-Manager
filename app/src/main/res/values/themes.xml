@@ -1,8 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.BudgetTracker" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.BudgetTracker" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!-- Adicione esta linha para definir a cor da barra de notificação -->
     </style>
 
     <style name="Theme.BudgetTracker" parent="Base.Theme.BudgetTracker" />

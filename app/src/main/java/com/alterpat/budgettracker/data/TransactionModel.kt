@@ -22,11 +22,15 @@ class TransactionModel() : Parcelable {
     @ColumnInfo(name = "description")
     var description: String = ""
 
+    @ColumnInfo(name = "date")
+    var date: String = ""
+
     constructor(parcel: Parcel) : this() {
         id = parcel.readInt()
         label = parcel.readString().toString()
         amount = parcel.readDouble()
         description = parcel.readString().toString()
+        date = parcel.readString().toString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,6 +38,7 @@ class TransactionModel() : Parcelable {
         parcel.writeString(label)
         parcel.writeDouble(amount)
         parcel.writeString(description)
+        parcel.writeString(date)
     }
 
     override fun describeContents(): Int {
